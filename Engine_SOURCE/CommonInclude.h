@@ -4,4 +4,6 @@ struct Test
 {
 	int a;
 	char b;
+
 };
+

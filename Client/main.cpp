@@ -5,14 +5,24 @@
 #include "Client.h"
 
 
+// 정적 라이브러리를 추가하는 방법.
+// 소스코드로 추가하는 방식.
+// 비쥬얼스튜디오 옵션에 추가해서 사용하는 방식.
+
+
+//#include "..\\Engine_SOURCE\\CommonInclude.h"
+
 #ifdef _DEBUG
 #pragma comment(lib, "..\\x64\\Debug\\Engine_SOURCE.lib")
 #else
-#pragma comment(lib, "..\\x64\\Debug\\Engine_SOURCE.lib")
+#pragma comment(lib, "..\\x64\\Release\\Engine_SOURCE.lib")
 #endif
 
 #include "CommonInclude.h"
 Test test;
+// dx HLSL 셰이더코드
+// openGL glsl
+// vulkan glsl hlsl 
 
 #define MAX_LOADSTRING 100
 
@@ -53,7 +63,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_CLIENT));
 
     MSG msg;
-
+    test.a = 100;
     // 기본 메시지 루프입니다:
     while (GetMessage(&msg, nullptr, 0, 0))
     {
