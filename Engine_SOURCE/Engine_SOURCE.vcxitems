@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{ed3569ec-dd7e-4f2d-a251-16cb3378475f}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CommonInclude.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)jsApplication.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)jsEngine.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)jsEntity.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)jsEnums.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)jsGraphicDevice_DX11.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)jsGraphics.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)jsInput.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)jsMath.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)jsResource.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)jsResources.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)jsTime.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)jsApplication.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)jsEntity.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)jsGraphicDevice_DX11.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)jsInput.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)jsMath.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)jsResource.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)jsResources.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)jsTime.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)jsMath.inl" />
+  </ItemGroup>
+</Project>
