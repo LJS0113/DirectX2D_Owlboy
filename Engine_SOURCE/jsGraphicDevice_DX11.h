@@ -16,6 +16,9 @@ namespace js::graphics
 		GraphicDevice_DX11();
 		~GraphicDevice_DX11();
 
+		bool CreateSwapChain(const DXGI_SWAP_CHAIN_DESC* desc, HWND hwnd);
+		bool CreateTexture(const D3D11_TEXTURE2D_DESC* desc, void *data);
+		void Draw();
 
 	private:
 		// 실제 그래픽카드 하드웨어 객체
