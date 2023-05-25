@@ -11,7 +11,7 @@ namespace js
 	LARGE_INTEGER Time::mPrevFrequency = {};
 	LARGE_INTEGER Time::mCurFrequency = {};
 
-	void Time::Initiailize()
+	void Time::Initialize()
 	{
 		// CPU 고유 진동수 가져오기
 		QueryPerformanceFrequency(&mCpuFrequency);
@@ -31,7 +31,7 @@ namespace js
 		mPrevFrequency.QuadPart = mCurFrequency.QuadPart;
 	}
 
-	void Time::Render(HDC hdc)
+	void Time::Render()
 	{
 		mSecond += mDeltaTime;
 

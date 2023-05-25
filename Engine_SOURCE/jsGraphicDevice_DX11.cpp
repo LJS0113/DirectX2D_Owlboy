@@ -1,5 +1,6 @@
 #include "jsGraphicDevice_DX11.h"
 #include "jsApplication.h"
+#include "jsRenderer.h"
 
 extern js::Application application;
 
@@ -95,6 +96,40 @@ namespace js::graphics
 		return true;
 	}
 
+	bool GraphicDevice_DX11::CreateBuffer(ID3D11Buffer** buffer, D3D11_BUFFER_DESC* desc, D3D11_SUBRESOURCE_DATA* data)
+	{
+		if (FAILED(mDevice->CreateBuffer(desc, data, buffer)))
+			return false;
+
+		return true;
+	}
+
+	bool GraphicDevice_DX11::CreateShader()
+	{
+		// 셰이더코드를 컴파일 한번 해줘야함(수동으로)
+		ID3DBlob* vsBlob = nullptr;
+		std::filesystem::path shaderPath = std::filesystem::current_path().parent_path();
+		shaderPath += L"\\Shader_SOURCE\\";
+
+		std::filesystem::path vsPath(shaderPath.c_str());
+		vsPath += L"TriangleVS.hlsl";
+
+		D3DCompileFromFile(vsPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main", "vs_5_0", 0, 0
+			, &js::renderer::triangleVSBlob, &js::renderer::errorBlob);
+
+		if (js::renderer::errorBlob)
+		{
+			OutputDebugStringA((char*)js::renderer::errorBlob->GetBufferPointer());
+			js::renderer::errorBlob->Release();
+		}
+
+		mDevice->CreateVertexShader(js::renderer::triangleVSBlob->GetBufferPointer(), js::renderer::triangleVSBlob->GetBufferSize()
+			, nullptr, &js::renderer::triangleVSShader);
+		// 블롭은 자료형이 blob 이므로 GetBufferPointer()
+
+		return true;
+	}
+
 	bool GraphicDevice_DX11::CreateTexture(const D3D11_TEXTURE2D_DESC* desc, void* data)
 	{
 		D3D11_TEXTURE2D_DESC dxgiDesc = {};
@@ -111,7 +146,7 @@ namespace js::graphics
 		dxgiDesc.SampleDesc.Quality = 0;
 
 		// 밉맵레벨은 중요한데, 밉맵레벨이란 원래의 텍스쳐 이미지를 우리가 원하는 사이즈에 맞게 줄일때에
-		// 미리 텍스쳐 사이즈를 크기별로 만들어놓고 그에 적당한 사이즈에 맞게 줄임
+		// 미리 텍스쳐 사이즈를 크기별로 만들어놓고 그에 적당한 사이즈에 맞게 텍스쳐를 넣음
 		dxgiDesc.MipLevels = desc->MipLevels;
 		dxgiDesc.MiscFlags = desc->MiscFlags;
 

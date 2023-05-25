@@ -1,4 +1,7 @@
 #include "jsApplication.h"
+#include "jsTime.h"
+#include "jsInput.h"
+#include "jsRenderer.h"
 
 namespace js
 {
@@ -20,15 +23,23 @@ namespace js
 	}
 	void Application::Initialize()
 	{
+		Time::Initialize();
+		Input::Initialize();
+
+		renderer::Initialize();
 	}
 	void Application::Update()
 	{
+		Time::Update();
+		Input::Update();
 	}
 	void Application::LateUpdate()
 	{
 	}
 	void Application::Render()
 	{
+		Time::Render();
+
 		graphicDevice->Draw();
 	}
 	void Application::SetWindow(HWND hwnd, UINT width, UINT height)
@@ -40,6 +51,7 @@ namespace js
 			mHeight = height;
 
 			graphicDevice = std::make_unique<js::graphics::GraphicDevice_DX11>();
+			js::graphics::GetDevice() = graphicDevice.get();
 		}
 
 		RECT rt = { 0, 0, (LONG)width , (LONG)height };

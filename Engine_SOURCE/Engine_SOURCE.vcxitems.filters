@@ -25,6 +25,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)jsEntity.cpp">
       <Filter>Common\Entity</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)jsRenderer.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)jsApplication.h">
@@ -62,6 +65,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)jsTime.h">
       <Filter>Common\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)jsRenderer.h">
+      <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -23,6 +23,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)jsGraphics.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)jsInput.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)jsMath.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)jsRenderer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)jsResource.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)jsResources.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)jsTime.h" />
@@ -33,6 +34,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)jsGraphicDevice_DX11.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)jsInput.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)jsMath.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)jsRenderer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)jsResource.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)jsResources.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)jsTime.cpp" />
