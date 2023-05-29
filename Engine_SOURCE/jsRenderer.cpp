@@ -4,6 +4,9 @@ namespace js::renderer
 {
 	Vertex vertexes[3] = {};
 
+	// Input Layout(정점 정보)
+	ID3D11InputLayout* triangleLayout = nullptr;
+
 	// vertexes는 cpu에 저장되어 있는 정보이므로 이걸 gpu로 보내려면 버퍼가 필요함. 그게 버텍스 버퍼.
 	// Vertext Buffer
 	ID3D11Buffer* triangleBuffer = nullptr;
@@ -52,13 +55,13 @@ namespace js::renderer
 
 	void Initialize()
 	{
-		vertexes[0].pos = Vector3(0.0f, 0.5f, 1.0f);
+		vertexes[0].pos = Vector3(0.0f, 0.5f, 0.0f);
 		vertexes[0].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
 
-		vertexes[1].pos = Vector3(0.5f, -0.5f, 1.0f);
+		vertexes[1].pos = Vector3(0.5f, -0.5f, 0.0f);
 		vertexes[1].color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
 
-		vertexes[2].pos = Vector3(-0.5f, -0.5f, 1.0f);
+		vertexes[2].pos = Vector3(-0.5f, -0.5f, 0.0f);
 		vertexes[2].color = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
 
 		SetupState();

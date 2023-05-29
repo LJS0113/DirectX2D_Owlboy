@@ -10,11 +10,11 @@
 // 비쥬얼스튜디오 옵션에 추가해서 사용하는 방식.
 
 
-#ifdef _DEBUG
-#pragma comment(lib, "..\\x64\\Debug\\Engine_SOURCE.lib")
-#else
-#pragma comment(lib, "..\\x64\\Release\\Engine_SOURCE.lib")
-#endif
+//#ifdef _DEBUG
+//#pragma comment(lib, "..\\x64\\Debug\\Engine_SOURCE.lib")
+//#else
+//#pragma comment(lib, "..\\x64\\Release\\Engine_SOURCE.lib")
+//#endif
 
 js::Application application;
 

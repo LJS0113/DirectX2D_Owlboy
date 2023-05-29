@@ -14,7 +14,7 @@ namespace js::graphics
 		D3D_FEATURE_LEVEL featureLevel = (D3D_FEATURE_LEVEL)0;
 
 		D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, deviceFlag, nullptr, 0
-							,D3D11_SDK_VERSION, mDevice.GetAddressOf(), &featureLevel, mContext.GetAddressOf());
+			, D3D11_SDK_VERSION, mDevice.GetAddressOf(), &featureLevel, mContext.GetAddressOf());
 
 		// SwapChain 생성
 		DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
@@ -35,17 +35,36 @@ namespace js::graphics
 
 		D3D11_TEXTURE2D_DESC depthStencilDesc = {};
 		depthStencilDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL;
+		depthStencilDesc.Usage = D3D11_USAGE::D3D11_USAGE_DEFAULT;
+		depthStencilDesc.CPUAccessFlags = 0;
+
 		depthStencilDesc.Format = DXGI_FORMAT::DXGI_FORMAT_D24_UNORM_S8_UINT;
-		depthStencilDesc.Usage = D3D11_USAGE_DEFAULT;
 		depthStencilDesc.Width = application.GetWidth();
-		depthStencilDesc.Height= application.GetHeight();
+		depthStencilDesc.Height = application.GetHeight();
 		depthStencilDesc.ArraySize = 1;
+
 		depthStencilDesc.SampleDesc.Count = 1;
+		depthStencilDesc.SampleDesc.Quality = 0;
+
+		depthStencilDesc.MipLevels = 0;
 		depthStencilDesc.MiscFlags = 0;
 
 		D3D11_SUBRESOURCE_DATA data;
 		if (!CreateTexture(&depthStencilDesc, &data))
 			return;
+
+		RECT winRect = {};
+		GetClientRect(hwnd, &winRect);
+
+		mViewPort =
+		{
+			0.0f, 0.0f
+			, (float)(winRect.right - winRect.left)
+			, (float)(winRect.bottom - winRect.top)
+			, 0.0f, 1.0f
+		};
+
+		BindViewPort(&mViewPort);
 
 		mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
 
@@ -127,6 +146,44 @@ namespace js::graphics
 			, nullptr, &js::renderer::triangleVSShader);
 		// 블롭은 자료형이 blob 이므로 GetBufferPointer()
 
+		std::filesystem::path psPath(shaderPath.c_str());
+		psPath += L"TrianglePS.hlsl";
+
+		D3DCompileFromFile(psPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main", "ps_5_0", 0, 0
+			, &js::renderer::trianglePSBlob, &js::renderer::errorBlob);
+
+		if (js::renderer::errorBlob)
+		{
+			OutputDebugStringA((char*)js::renderer::errorBlob->GetBufferPointer());
+			js::renderer::errorBlob->Release();
+		}
+
+		mDevice->CreatePixelShader(js::renderer::trianglePSBlob->GetBufferPointer(), js::renderer::trianglePSBlob->GetBufferSize()
+			, nullptr, &js::renderer::trianglePSShader);
+
+		// Input Layout 정점 구조 정보를 넘겨줘야 한다.
+		D3D11_INPUT_ELEMENT_DESC arrLayout[2] = {};
+		// 우리는 셰이더에 포지션과 컬러 두 가지 정보를 가지고 있으므로 배열의 크기는 2
+
+		arrLayout[0].AlignedByteOffset = 0;
+		arrLayout[0].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+		arrLayout[0].InputSlot = 0;
+		arrLayout[0].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+		arrLayout[0].SemanticName = "POSITION";
+		arrLayout[0].SemanticIndex = 0;
+
+		arrLayout[1].AlignedByteOffset = 12;
+		arrLayout[1].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+		arrLayout[1].InputSlot = 0;
+		arrLayout[1].InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+		arrLayout[1].SemanticName = "COLOR";
+		arrLayout[1].SemanticIndex = 0;
+
+		mDevice->CreateInputLayout(arrLayout, 2
+			, renderer::triangleVSBlob->GetBufferPointer()
+			, renderer::triangleVSBlob->GetBufferSize()
+			, &renderer::triangleLayout);
+
 		return true;
 	}
 
@@ -159,12 +216,48 @@ namespace js::graphics
 		return true;
 	}
 
+	void GraphicDevice_DX11::BindViewPort(D3D11_VIEWPORT* viewPort)
+	{
+		mContext->RSSetViewports(1, viewPort);
+	}
+
 	void GraphicDevice_DX11::Draw()
 	{
 		FLOAT bgColor[4] = { 0.2f, 0.2f, 0.2f, 1.0f };
 
 		// 화면에 그리기 전에 이전에 있던 내용은 지워주고
 		mContext->ClearRenderTargetView(mRenderTargetView.Get(), bgColor);
+		mContext->ClearDepthStencilView(mDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0.0f);
+
+		// viewport update
+		HWND hwnd = application.GetHwnd();
+		RECT winRect = {};
+		GetClientRect(hwnd, &winRect);
+		mViewPort =
+		{
+			0.0f, 0.0f
+			, (float)(winRect.right - winRect.left)
+			, (float)(winRect.bottom - winRect.top)
+			, 0.0f, 1.0f
+		};
+
+		BindViewPort(&mViewPort);
+		mContext->OMSetRenderTargets(1, mRenderTargetView.GetAddressOf(), mDepthStencilView.Get());
+
+		// input assembler 정점 데이터 정보 지정
+		UINT vertexsize = sizeof(renderer::Vertex);
+		UINT offset = 0;
+
+		mContext->IASetVertexBuffers(0, 1, &renderer::triangleBuffer, &vertexsize, &offset);
+		mContext->IASetInputLayout(renderer::triangleLayout);
+		mContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		// Bind VS,PS
+		mContext->VSSetShader(renderer::triangleVSShader, 0, 0);
+		mContext->PSSetShader(renderer::trianglePSShader, 0, 0);
+
+		// Draw Render Target
+		mContext->Draw(3, 0);
 
 		// 클리어와 present사이에 우리가 그려줄 것을 넣어줌.
 
