@@ -2,7 +2,7 @@
 
 namespace js::renderer
 {
-	Vertex vertexes[6] = {};
+	Vertex vertexes[12] = {};
 
 	// Input Layout(정점 정보)
 	ID3D11InputLayout* triangleLayout = nullptr;
@@ -40,7 +40,7 @@ namespace js::renderer
 		D3D11_BUFFER_DESC triangleDesc = {};
 		triangleDesc.Usage = D3D11_USAGE::D3D11_USAGE_DYNAMIC; // default하니까 오류고 다이나믹으로 해줌.
 		//triangleDesc.ByteWidth = sizeof(Vertex) * 3; // 정점 크기, 개수 우리가 만든 Vertex struct가 총 3개의 정점이므로 곱3
-		triangleDesc.ByteWidth = sizeof(Vertex) * 6; // 정점 크기, 개수 우리가 만든 Vertex struct가 총 4개의 정점이므로 곱4
+		triangleDesc.ByteWidth = sizeof(Vertex) * 12; // 정점 크기, 개수 우리가 만든 Vertex struct가 총 4개의 정점이므로 곱4
 		triangleDesc.BindFlags = D3D11_BIND_FLAG::D3D11_BIND_VERTEX_BUFFER; // 무슨 버퍼로 사용할 것이냐를 지정.
 		triangleDesc.CPUAccessFlags = D3D11_CPU_ACCESS_FLAG::D3D11_CPU_ACCESS_WRITE; // cpu에서 사용이 가능할 것이냐 => 쓸수 있게.
 
@@ -56,65 +56,46 @@ namespace js::renderer
 
 	void Initialize()
 	{
-		//// 사각혐
-		//// 0
-		//vertexes[0].pos = Vector3(-0.5f, 0.5f, 0.0f);
-		//vertexes[0].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
-		//// 1
-		//vertexes[1].pos = Vector3(0.5f, 0.5f, 0.0f);
-		//vertexes[1].color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
-		//// 2
-		//vertexes[2].pos = Vector3(0.5f, -0.5f, 0.0f);
-		//vertexes[2].color = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
-		//// 2
-		//vertexes[3].pos = Vector3(0.5f, -0.5f, 0.0f);
-		//vertexes[3].color = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
-		//// 3
-		//vertexes[4].pos = Vector3(-0.5f, -0.5f, 0.0f);
-		//vertexes[4].color = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
-		//// 0
-		//vertexes[5].pos = Vector3(-0.5f, 0.5f, 0.0f);
-		//vertexes[5].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
-
-		//// 마름모
-		//// 0
-		//vertexes[0].pos = Vector3(0.0f, 0.5f, 0.0f);
-		//vertexes[0].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
-		//// 1
-		//vertexes[1].pos = Vector3(0.5f, 0.0f, 0.0f);
-		//vertexes[1].color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
-		//// 2
-		//vertexes[2].pos = Vector3(0.0f, -0.5f, 0.0f);
-		//vertexes[2].color = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
-		//// 2
-		//vertexes[3].pos = Vector3(0.0f, -0.5f, 0.0f);
-		//vertexes[3].color = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
-		//// 3
-		//vertexes[4].pos = Vector3(-0.5f, 0.0f, 0.0f);
-		//vertexes[4].color = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
-		//// 0
-		//vertexes[5].pos = Vector3(0.0f, 0.5f, 0.0f);
-		//vertexes[5].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
-
-		// 원
-		// 0
-		vertexes[0].pos = Vector3(0.0f, 0.5f, 0.0f);
+		// 사각형
+		// 0 (-1,1)
+		vertexes[0].pos = Vector3(-1.0f, 1.0f, 0.0f);
 		vertexes[0].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
-		// 1
-		vertexes[1].pos = Vector3(0.5f, 0.0f, 0.0f);
+		// 1 (0,1)
+		vertexes[1].pos = Vector3(0.0f, 1.0f, 0.0f);
 		vertexes[1].color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
-		// 2
-		vertexes[2].pos = Vector3(0.0f, -0.5f, 0.0f);
+		// 2 (0,0)
+		vertexes[2].pos = Vector3(0.0f, 0.0f, 0.0f);
 		vertexes[2].color = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
-		// 2
-		vertexes[3].pos = Vector3(0.0f, -0.5f, 0.0f);
+		// 2 (0,0)
+		vertexes[3].pos = Vector3(0.0f, 0.0f, 0.0f);
 		vertexes[3].color = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
-		// 3
-		vertexes[4].pos = Vector3(-0.5f, 0.0f, 0.0f);
+		// 3 (-1,0)
+		vertexes[4].pos = Vector3(-1.0f, 0.0f, 0.0f);
 		vertexes[4].color = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
-		// 0
-		vertexes[5].pos = Vector3(0.0f, 0.5f, 0.0f);
+		// 0 (-1,1)
+		vertexes[5].pos = Vector3(-1.0f, 1.0f, 0.0f);
 		vertexes[5].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+
+		// 마름모
+		// 0 (0.5,0)
+		vertexes[6].pos = Vector3(0.5f, 0.0f, 0.0f);
+		vertexes[6].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+		// 1 (1,-0.5)
+		vertexes[7].pos = Vector3(1.0f, -0.5f, 0.0f);
+		vertexes[7].color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+		// 2 (0.5,-1)
+		vertexes[8].pos = Vector3(0.5f, -1.0f, 0.0f);
+		vertexes[8].color = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
+		// 2 (0.5,-1)
+		vertexes[9].pos = Vector3(0.5f, -1.0f, 0.0f);
+		vertexes[9].color = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
+		// 3 (0,-0.5)
+		vertexes[10].pos = Vector3(0.0f, -0.5f, 0.0f);
+		vertexes[10].color = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
+		// 0 (0.5,0)
+		vertexes[11].pos = Vector3(0.5f, 0.0f, 0.0f);
+		vertexes[11].color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+
 
 		SetupState();
 		LoadBuffer();

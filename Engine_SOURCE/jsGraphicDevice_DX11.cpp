@@ -257,7 +257,7 @@ namespace js::graphics
 		mContext->PSSetShader(renderer::trianglePSShader, 0, 0);
 
 		// Draw Render Target
-		mContext->Draw(6, 0);
+		mContext->Draw(12, 0);
 
 		// 클리어와 present사이에 우리가 그려줄 것을 넣어줌.
 
