@@ -14,12 +14,19 @@ struct VSOut
 	float4 Color : COLOR;
 };
 
+cbuffer Transform : register(b0)
+{
+    float4 Pos;
+}
+
 VSOut main(VSIn In) 
 {
 	// 0.0f로 모든값 초기화.
 	VSOut Out = (VSOut)0.0f;
 
 	Out.Pos = float4(In.Pos, 1.0f);
+    Out.Pos += Pos.x;
+	
 	Out.Color = In.Color;
 
 	return Out;
