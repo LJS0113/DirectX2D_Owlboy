@@ -25,9 +25,10 @@ VSOut main(VSIn In)
 	VSOut Out = (VSOut)0.0f;
 
 	Out.Pos = float4(In.Pos, 1.0f);
-    Out.Pos += Pos.x;
+    Out.Pos.x += Pos.x;
+    Out.Pos.y += Pos.y;
 	
-	Out.Color = In.Color;
+    Out.Color = In.Color;
 
 	return Out;
 }

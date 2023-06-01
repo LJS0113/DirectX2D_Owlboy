@@ -1,8 +1,10 @@
 #include "jsRenderer.h"
+#include "jsInput.h"
+
 
 namespace js::renderer
 {
-	Vertex vertexes[12] = {};
+	Vertex vertexes[3] = {};
 
 	// Input Layout(정점 정보)
 	ID3D11InputLayout* triangleLayout = nullptr;
@@ -74,9 +76,9 @@ namespace js::renderer
 
 		js::graphics::GetDevice()->CreateBuffer(&triangleConstantBuffer, &triangleCSDesc, nullptr);
 
-		Vector4 pos(0.3f, 0.0f, 0.0f, 1.0f);
-		js::graphics::GetDevice()->SetConstantBuffer(triangleConstantBuffer, &pos, sizeof(Vector4));
-		js::graphics::GetDevice()->BindConstantBuffer(eShaderStage::VS, eCBType::Transform, triangleConstantBuffer);
+		Vector4 pos(0.0f, 0.0f, 0.0f, 1.0f);
+		js::graphics::GetDevice()->SetConstantBuffer(renderer::triangleConstantBuffer, &pos, sizeof(Vector4));
+		js::graphics::GetDevice()->BindConstantBuffer(eShaderStage::VS, eCBType::Transform, renderer::triangleConstantBuffer);
 	}
 
 	void LoadShader()
@@ -96,7 +98,6 @@ namespace js::renderer
 		// 2 (0,0)
 		vertexes[2].pos = Vector3(-0.5f, -0.5f, 0.0f);
 		vertexes[2].color = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
-
 
 		SetupState();
 		LoadBuffer();
