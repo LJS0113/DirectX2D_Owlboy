@@ -4,6 +4,7 @@
 #include "framework.h"
 #include "Editor_Window.h"
 #include "jsApplication.h"
+#include "jsRenderer.h"
 
 // 정적 라이브러리를 추가하는 방법.
 // 소스코드로 추가하는 방식.
@@ -79,6 +80,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
     }
 
+    renderer::Release();
     return (int) msg.wParam;
 }
 

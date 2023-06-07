@@ -134,32 +134,32 @@ namespace js::graphics
 		vsPath += L"TriangleVS.hlsl";
 
 		D3DCompileFromFile(vsPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main", "vs_5_0", 0, 0
-			, &js::renderer::triangleVSBlob, &js::renderer::errorBlob);
+			, &renderer::triangleVSBlob, &renderer::errorBlob);
 
-		if (js::renderer::errorBlob)
+		if (renderer::errorBlob)
 		{
-			OutputDebugStringA((char*)js::renderer::errorBlob->GetBufferPointer());
-			js::renderer::errorBlob->Release();
+			OutputDebugStringA((char*)renderer::errorBlob->GetBufferPointer());
+			renderer::errorBlob->Release();
 		}
 
-		mDevice->CreateVertexShader(js::renderer::triangleVSBlob->GetBufferPointer(), js::renderer::triangleVSBlob->GetBufferSize()
-			, nullptr, &js::renderer::triangleVSShader);
+		mDevice->CreateVertexShader(renderer::triangleVSBlob->GetBufferPointer(), renderer::triangleVSBlob->GetBufferSize()
+			, nullptr, &renderer::triangleVSShader);
 		// 블롭은 자료형이 blob 이므로 GetBufferPointer()
 
 		std::filesystem::path psPath(shaderPath.c_str());
 		psPath += L"TrianglePS.hlsl";
 
 		D3DCompileFromFile(psPath.c_str(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main", "ps_5_0", 0, 0
-			, &js::renderer::trianglePSBlob, &js::renderer::errorBlob);
+			, &renderer::trianglePSBlob, &renderer::errorBlob);
 
-		if (js::renderer::errorBlob)
+		if (renderer::errorBlob)
 		{
-			OutputDebugStringA((char*)js::renderer::errorBlob->GetBufferPointer());
-			js::renderer::errorBlob->Release();
+			OutputDebugStringA((char*)renderer::errorBlob->GetBufferPointer());
+			renderer::errorBlob->Release();
 		}
 
-		mDevice->CreatePixelShader(js::renderer::trianglePSBlob->GetBufferPointer(), js::renderer::trianglePSBlob->GetBufferSize()
-			, nullptr, &js::renderer::trianglePSShader);
+		mDevice->CreatePixelShader(renderer::trianglePSBlob->GetBufferPointer(), renderer::trianglePSBlob->GetBufferSize()
+			, nullptr, &renderer::trianglePSShader);
 
 		// Input Layout 정점 구조 정보를 넘겨줘야 한다.
 		D3D11_INPUT_ELEMENT_DESC arrLayout[2] = {};

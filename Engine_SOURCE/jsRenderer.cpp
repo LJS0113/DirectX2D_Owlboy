@@ -2,7 +2,7 @@
 #include "jsInput.h"
 
 
-namespace js::renderer
+namespace renderer
 {
 	Vertex vertexes[3] = {};
 
@@ -102,5 +102,34 @@ namespace js::renderer
 		SetupState();
 		LoadBuffer();
 		LoadShader();
+	}
+	void renderer::Release()
+	{
+		if (triangleLayout != nullptr)
+			triangleLayout->Release();
+
+		if (triangleBuffer != nullptr)
+			triangleBuffer->Release();
+
+		if (triangleIdxBuffer != nullptr)
+			triangleIdxBuffer->Release();
+
+		if (triangleConstantBuffer != nullptr)
+			triangleConstantBuffer->Release();
+
+		if (errorBlob != nullptr)
+			errorBlob->Release();
+
+		if (triangleVSBlob != nullptr)
+			triangleVSBlob->Release();
+
+		if (triangleVSShader != nullptr)
+			triangleVSShader->Release();
+
+		if (trianglePSBlob != nullptr)
+			trianglePSBlob->Release();
+
+		if (trianglePSShader != nullptr)
+			trianglePSShader->Release();
 	}
 }

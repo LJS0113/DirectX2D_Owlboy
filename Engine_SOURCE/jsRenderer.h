@@ -3,7 +3,7 @@
 #include "jsGraphicDevice_DX11.h"
 
 using namespace js::math;
-namespace js::renderer
+namespace renderer
 {
 	struct Vertex
 	{
@@ -21,5 +21,7 @@ namespace js::renderer
 	extern ID3D11VertexShader* triangleVSShader;
 	extern ID3DBlob* trianglePSBlob;
 	extern ID3D11PixelShader* trianglePSShader;
+
 	void Initialize();
+	void Release();
 }
