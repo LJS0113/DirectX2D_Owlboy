@@ -32,8 +32,6 @@ namespace js
 		HWND mHwnd;
 		UINT mWidth;
 		UINT mHeight;
-
-		math::Vector4 pos;
 	};
 
 }

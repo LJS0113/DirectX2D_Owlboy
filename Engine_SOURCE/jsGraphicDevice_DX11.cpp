@@ -306,7 +306,7 @@ namespace js::graphics
 
 		// Draw Render Target
 		//mContext->Draw(3, 0);
-		mContext->DrawIndexed(3, 0, 0);
+		mContext->DrawIndexed(6, 0, 0);
 		// 클리어와 present사이에 우리가 그려줄 것을 넣어줌.
 
 		// 화면에 그려줌
